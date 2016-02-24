@@ -20,7 +20,7 @@ func ccompile(source, dialect string) (out []byte, err error) {
 		standard = "-std=c11"
 	}
 	out, err = exec.Command(cc, standard, "-pedantic", "-Werror", "-Wall",
-		"-pipe", "-fPIC", fmt.Sprintf("-o %s.out", source),
+		"-pipe", "-fPIC", "-o", fmt.Sprintf("%s.out", source),
 		source).CombinedOutput()
 	return
 }

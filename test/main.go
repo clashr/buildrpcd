@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
 	"net/rpc"
 
@@ -28,5 +29,11 @@ func main() {
 		log.Fatalf("error in Build", err)
 	}
 	//we got our result in result
-	log.Printf("Language:%s\n %s\n Result: %s", args.Language, args.Contents, result)
+	log.Printf("Language:%s\n %s\nResult: %d", args.Language, args.Contents, len(result.Binary))
+
+	ioutil.WriteFile("a.out", result.Binary, 0755)
+	if err != nil {
+		log.Fatalf("could not write result")
+	}
+	log.Printf("Wrote Binary")
 }

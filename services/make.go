@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"time"
 )
@@ -60,8 +61,23 @@ func Make(contents, language, dialect string) (bindata, ccout []byte, err error)
 		return
 	}
 
-	// TODO: Return Compiled File Data
+	binary := fmt.Sprintf("%s.out", fileName)
 
+	strip(binary)
+
+	bindata, err = ioutil.ReadFile(binary)
+	if err != nil {
+		return
+	}
+
+	err = os.Remove(fileName)
+	if err != nil {
+		return
+	}
+	err = os.Remove(binary)
+	if err != nil {
+		return
+	}
 	err = os.Chdir(origDir)
 	if err != nil {
 		return
@@ -76,4 +92,9 @@ func writeSource(source, location, ext string) (fileName string, err error) {
 		return
 	}
 	return
+}
+
+func strip(file string) error {
+	err := exec.Command("strip", "-s", file).Run()
+	return err
 }

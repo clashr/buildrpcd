@@ -1,8 +1,9 @@
 package api
 
 import (
-	"github.com/clashr/buildrpcd/services"
 	"log"
+
+	"github.com/clashr/buildrpcd/services"
 )
 
 type Args struct {
@@ -22,7 +23,10 @@ func (b *Build) Compile(args Args, result *Result) (err error) {
 
 func Compile(args Args, result *Result) (err error) {
 	log.Printf("Reached Compile Endpoint\n")
-	_, output, err := services.Make(args.Contents, args.Language, args.Dialect)
-	*result = Result{output, []byte("binary data")}
+	binary, output, err := services.Make(args.Contents, args.Language, args.Dialect)
+	if err != nil {
+		return
+	}
+	*result = Result{output, binary}
 	return nil
 }
