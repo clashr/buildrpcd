@@ -26,26 +26,52 @@ func Make(contents, language, dialect string) (bindata, ccout []byte, err error)
 		return
 	}
 
-	fileName := fmt.Sprintf("source%d", time.Now().Nanosecond)
-	err = ioutil.WriteFile(filepath.Join(tmpDir, fileName), []byte(contents), 0644)
+	log.Printf("Reached Build/Make endpoint.\n")
+	log.Printf("Compiling %s source.\n", language)
+
+	var fileName string
+	switch language {
+	case "c":
+		fileName, err = writeSource(contents, tmpDir, ".c")
+		if err != nil {
+			break
+		}
+		ccout, err = ccompile(fileName, dialect)
+	case "cpp":
+		fileName, err = writeSource(contents, tmpDir, ".cpp")
+		if err != nil {
+			break
+		}
+		ccout, err = cppcompile(fileName, dialect)
+	case "asm":
+		fileName, err = writeSource(contents, tmpDir, ".asm")
+		if err != nil {
+			break
+		}
+		ccout, err = asmcompile(fileName, dialect)
+	case "fortran":
+		fileName, err = writeSource(contents, tmpDir, ".f")
+		if err != nil {
+			break
+		}
+		ccout, err = fcompile(fileName, dialect)
+	}
 	if err != nil {
 		return
 	}
 
-	log.Printf("Reached Build/Make endpoint.\n")
-	log.Printf("Compiling %s source.\n", language)
-	switch language {
-	case "c":
-		ccompile(fileName, dialect)
-	case "cpp":
-		cppcompile(fileName, dialect)
-	case "asm":
-		asmcompile(fileName, dialect)
-	case "fortran":
-		fcompile(fileName, dialect)
-	}
+	// TODO: Return Compiled File Data
 
 	err = os.Chdir(origDir)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func writeSource(source, location, ext string) (fileName string, err error) {
+	fileName = fmt.Sprintf("source%d%s", time.Now().Nanosecond, ext)
+	err = ioutil.WriteFile(filepath.Join(location, fileName), []byte(source), 0644)
 	if err != nil {
 		return
 	}

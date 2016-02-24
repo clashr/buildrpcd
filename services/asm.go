@@ -1,5 +1,7 @@
 package services
 
-func asmcompile(source, dialect string) (err error) {
-	return nil
+import "errors"
+
+func asmcompile(source, dialect string) (out []byte, err error) {
+	return nil, errors.New("Assembly not yet implemented.")
 }

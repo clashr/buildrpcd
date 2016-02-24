@@ -15,8 +15,9 @@ func main() {
 	}
 	//make arguments object
 	args := &api.Args{
-		Language: "c++",
-		Contents: "#include<iostream>\nusing namespace std;\nint main() { return 0; }",
+		Language: "c",
+		Dialect:  "ansi",
+		Contents: "#include<stdio.h>\nint main() {\nprintf(\"Hello World\");\nreturn 0; }",
 	}
 	//this will store returned result
 	var result api.Result

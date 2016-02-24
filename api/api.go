@@ -13,7 +13,7 @@ type Build struct {
 }
 
 type Result struct {
-	CCOut, Binary string
+	CCOut, Binary []byte
 }
 
 func (b *Build) Compile(args Args, result *Result) (err error) {
@@ -22,7 +22,7 @@ func (b *Build) Compile(args Args, result *Result) (err error) {
 
 func Compile(args Args, result *Result) (err error) {
 	log.Printf("Reached Compile Endpoint\n")
-	services.Nothing()
-	*result = Result{"not yet implemented", "binary data"}
+	_, output, err := services.Make(args.Contents, args.Language, args.Dialect)
+	*result = Result{output, []byte("binary data")}
 	return nil
 }
