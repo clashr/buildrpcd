@@ -10,7 +10,7 @@ import (
 
 func main() {
 	//make connection to rpc server
-	client, err := rpc.DialHTTP("tcp", ":1234")
+	client, err := rpc.Dial("tcp", ":1234")
 	if err != nil {
 		log.Fatalf("Error in dialing. %s", err)
 	}
