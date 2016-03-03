@@ -5,22 +5,22 @@ import (
 	"os/exec"
 )
 
-func ccompile(source, dialect string) (out []byte, err error) {
-	var standard string
+func ccompile(source, dialect string) ([]byte, error) {
+	var std string
 	switch dialect {
 	case "ansi":
-		standard = "-ansi"
+		std = "-ansi"
 	case "c89":
-		standard = "-std=c89"
+		std = "-std=c89"
 	case "c90":
-		standard = "-std=c90"
+		std = "-std=c90"
 	case "c99":
-		standard = "-std=c99"
+		std = "-std=c99"
 	case "c11":
-		standard = "-std=c11"
+		std = "-std=c11"
 	}
-	out, err = exec.Command(cc, standard, "-pedantic", "-Werror", "-Wall",
-		"-pipe", "-fPIC", "-o", fmt.Sprintf("%s.out", source),
+	out, err = exec.Command(cc, std, "-pedantic", "-Werror", "-static",
+		"-Wall", "-pipe", "-fPIC", "-o", fmt.Sprintf("%s.out", source),
 		source).CombinedOutput()
-	return
+	return out, err
 }
