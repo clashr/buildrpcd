@@ -19,7 +19,7 @@ func ccompile(source, dialect string) ([]byte, error) {
 	case "c11":
 		std = "-std=c11"
 	}
-	out, err = exec.Command(cc, std, "-pedantic", "-Werror", "-static",
+	out, err := exec.Command(cc, std, "-pedantic", "-Werror", "-static",
 		"-Wall", "-pipe", "-fPIC", "-o", fmt.Sprintf("%s.out", source),
 		source).CombinedOutput()
 	return out, err

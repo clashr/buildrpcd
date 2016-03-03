@@ -5,22 +5,22 @@ import (
 	"os/exec"
 )
 
-func cppcompile(source, dialect string) (out []byte, err error) {
-	var standard string
+func cppcompile(source, dialect string) ([]byte, error) {
+	var std string
 	switch dialect {
 	case "ansi":
-		standard = "-ansi"
+		std = "-ansi"
 	case "c++98":
-		standard = "-std=c++98"
+		std = "-std=c++98"
 	case "c++03":
-		standard = "-std=c++03"
+		std = "-std=c++03"
 	case "c++11":
-		standard = "-std=c++11"
+		std = "-std=c++11"
 	case "c++14":
-		standard = "-std=c++14"
+		std = "-std=c++14"
 	}
-	cflags := fmt.Sprintf("%s -pedantic -Werror -Wall -mtune=i386 -o %s.out",
-		standard, source)
-	out, err = exec.Command(cpp, cflags).CombinedOutput()
-	return
+	out, err := exec.Command(cpp, std, "-pedantic", "-Werror", "-static",
+		"-Wall", "-pipe", "-fPIC", "-o", fmt.Sprintf("%s.out", source),
+		source).CombinedOutput()
+	return out, err
 }

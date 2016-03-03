@@ -1,8 +1,9 @@
 package services
 
 import (
-	"log"
 	"os/exec"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 var cc string

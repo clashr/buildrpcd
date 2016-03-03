@@ -1,7 +1,7 @@
 package api
 
 import (
-	"log"
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/clashr/buildrpcd/services"
 )

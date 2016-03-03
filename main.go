@@ -1,9 +1,10 @@
 package main
 
 import (
-	"log"
 	"net"
 	"net/rpc"
+
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/clashr/buildrpcd/api"
 	"github.com/clashr/buildrpcd/services"

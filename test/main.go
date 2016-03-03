@@ -2,8 +2,9 @@ package main
 
 import (
 	"io/ioutil"
-	"log"
 	"net/rpc"
+
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/clashr/buildrpcd/api"
 )

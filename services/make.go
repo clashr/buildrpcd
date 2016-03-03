@@ -3,11 +3,12 @@ package services
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 func Nothing() {
