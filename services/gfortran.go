@@ -24,22 +24,20 @@ import (
 	"os/exec"
 )
 
-func fcompile(source, dialect string) (out []byte, err error) {
-	var standard string
+func fcompile(source, dialect string) ([]byte, error) {
+	var std string
 	switch dialect {
 	case "legacy":
-		standard = "-std=legacy"
+		std = "-std=legacy"
 	case "f95":
-		standard = "-std=f95"
+		std = "-std=f95"
 	case "f2003":
-		standard = "-std=f2003"
+		std = "-std=f2003"
 	case "f2008":
-		standard = "-std=f2003"
-	case "c11":
-		standard = "-std=c11"
+		std = "-std=f2003"
 	}
-	cflags := fmt.Sprintf("%s -pedantic -Werror -Wall -mtune=i386 -o %s.out",
-		standard, source)
-	out, err = exec.Command(cc, cflags).CombinedOutput()
-	return
+	out, err := exec.Command(gfortran, std, "-pedantic", "-Werror",
+		"-static", "-Wall", "-pipe", "-fPIC", "-o", fmt.Sprintf("%s.out",
+			source), source).CombinedOutput()
+	return out, err
 }
